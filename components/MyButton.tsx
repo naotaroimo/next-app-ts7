@@ -1,14 +1,14 @@
+import { Dispatch } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { countIncrement } from "../duck/MyButton/actions";
+import { countIncrement, CountStateAction } from "../duck/MyButton/actions";
 import { CountState } from "../duck/MyButton/countReducer";
+import { RootState } from "../store";
 
 const MyButton = () => {
-
     //第一引数がstateの型
     //第二引数CountState["counter"]はuseSelectorが返す型相当 つまり、今回はnumber
-    const mycounter = useSelector<CountState, CountState["counter"]>((state) => state.counter);
-    const dispatch = useDispatch();
-
+    const mycounter = useSelector<RootState,CountState["counter"]>((state:RootState)=>state.countReducer.counter);
+    const dispatch = useDispatch<Dispatch<CountStateAction>>();
 
     const handleCountUpBtn = (value: number) => {
         //dispatchにactionオブジェクト(今回はtypeとpayload)を渡してstoreで処理させる
