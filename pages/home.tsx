@@ -1,27 +1,34 @@
+import { Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { CountState } from "../duck/MyButton/countReducer";
 import MyButton from "../components/MyButton";
-import { countIncrement, CountStateAction } from "../duck/MyButton/actions";
+import counterSlice, { CounterState } from "../features/counterSlice";
 import { RootState } from "../store";
-import { Dispatch } from "react";
 
 const Home = () => {
-    //第一引数がstateの型
-    //第二引数CountState["counter"]はuseSelectorが返す型相当 つまり、今回はnumber
-    const counter = useSelector<RootState,CountState["counter"]>((state:RootState)=>state.countReducer.counter);
-    const dispatch = useDispatch<Dispatch<CountStateAction>>();
+
+    //const counter = useSelector<CounterState,CounterState["counter"]>((state)=>state.counter);
+    const counter = useSelector<RootState, CounterState["counter"]>((state) => state.counterReducer.counter);
+    const dispatch = useDispatch<Dispatch<PayloadAction<number>>>();
+    const { increment, decrement } = counterSlice.actions;
 
     const handleCountUpBtn = (value: number) => {
-        //dispatch({type:"count/increment", payload:value});
-        dispatch(countIncrement(value));
+        dispatch(increment(value));
+        console.log(increment(value));
+    }
+
+    const handleCountDownBtn = (value: number) => {
+        dispatch(decrement(value));
     }
 
     return (
         <div>
-            counter:{counter}
+            [Parent component area]:{counter}
             <div>
-                <button onClick={() => handleCountUpBtn(1)}> [+] (home.tsx)  </button>
-                <hr />
+                <button onClick={() => handleCountUpBtn(1)}>[+](home.tsx)</button>
+                <button onClick={() => handleCountDownBtn(1)}>[-](home.tsx)</button>
+            </div>
+            <hr />
+            <div>
                 <MyButton />
             </div>
         </div>

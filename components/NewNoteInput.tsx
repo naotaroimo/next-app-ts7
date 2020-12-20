@@ -1,6 +1,7 @@
-import { useState, ChangeEvent, Dispatch } from 'react';
-import { useDispatch } from 'react-redux';
-import { NotesStateAction } from '../duck/NewNoteInput/notesreducer';
+import { Dispatch, PayloadAction } from "@reduxjs/toolkit";
+import { ChangeEvent, useState } from "react";
+import { useDispatch } from "react-redux";
+import notesSlice from "../features/notesSlice";
 
 const NewNoteInput = () => {
 
@@ -8,7 +9,8 @@ const NewNoteInput = () => {
     const [note, setNote] = useState<string>("");
 
     //グローバルなstate用のdispatchフック   
-    const dispatch = useDispatch<Dispatch<NotesStateAction>>();
+    const dispatch = useDispatch<Dispatch<PayloadAction<string>>>();
+
 
     //テキストエリアの入力値監視用
     const updateNote = (event: ChangeEvent<HTMLInputElement>) => {
